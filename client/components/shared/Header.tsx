@@ -7,13 +7,11 @@ import ThemeSwitcher from "@/utils/ThemeSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 import { MdOutlineClose } from "react-icons/md";
 import MobileNav from "./MobileNav";
-import { useSelector } from "react-redux";
 import Image from "next/image";
 
 const Header = () => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const { user } = useSelector((state: any) => state.auth);
 
   if (typeof window != "undefined") {
     window.addEventListener("scroll", () => {
@@ -25,7 +23,6 @@ const Header = () => {
     });
   }
 
-  console.log(user);
   const handleClose = (e: any) => {
     if (e.target.id === "screen") {
       setOpenSidebar(false);
@@ -44,21 +41,22 @@ const Header = () => {
         <div className="w-[95%] 800px:w-[92%] m-auto py-2 h-full">
           <div className="w-full flex items-center justify-between p-3">
             {/* Logo */}
-            <div>
-              <Link
-                href={"/"}
-                className="text-[26px] font-Poppins font-[500] text-black dark:text-white"
-              >
-                Unocode
-              </Link>
-            </div>
+            <Link href={"/"} className="h-[50px] w-[60px]">
+              <Image
+                src="/images/logo.jpg"
+                alt="logo"
+                width={1000}
+                height={1000}
+                className="cursor-pointer w-[50px] h-[50px] object-contain rounded-full"
+              />
+            </Link>
 
             <div className="flex items-center gap-2">
               <NavItems />
 
               <ThemeSwitcher />
 
-              {user ? (
+              {/* {user ? (
                 <Link href="/profile">
                   <Image
                     src={user.avatar ? user.avatar : "/images/avatar.jpg"}
@@ -66,16 +64,16 @@ const Header = () => {
                     width={30}
                     height={30}
                     className="w-[30px] h-[30px] object-contain cursor-pointer"
-                  />
-                </Link>
-              ) : (
-                <Link href="/login">
-                  <HiOutlineUserCircle
-                    size={25}
-                    className="cursor-pointer dark:text-white text-black"
-                  />
-                </Link>
-              )}
+                  /> */}
+              {/* </Link> */}
+              {/* ) : ( */}
+              <Link href="/login">
+                <HiOutlineUserCircle
+                  size={25}
+                  className="cursor-pointer dark:text-white text-black"
+                />
+              </Link>
+              {/* )} */}
 
               <div className="800px:hidden">
                 <HiOutlineMenuAlt3
@@ -99,7 +97,7 @@ const Header = () => {
               <div className="flex justify-end pr-5 gap-4">
                 <ThemeSwitcher />
 
-                {user ? (
+                {/* {user ? (
                   <Link href="/profile">
                     {user ? (
                       <Image
@@ -107,22 +105,22 @@ const Header = () => {
                         alt="user-avatar"
                         className="w-[30px] h-[30px] object-contain cursor-pointer rounded-full"
                       />
-                    ) : (
-                      <Image
-                        src="../../public/images/avatar.jpg"
-                        alt="user-avatar"
-                        className="w-[30px] h-[30px] object-contain cursor-pointer"
-                      />
-                    )}
-                  </Link>
-                ) : (
-                  <Link href="/login">
-                    <HiOutlineUserCircle
-                      size={25}
-                      className="cursor-pointer dark:text-white text-black"
-                    />
-                  </Link>
-                )}
+                    ) : ( */}
+                <Image
+                  src="../../public/images/avatar.jpg"
+                  alt="user-avatar"
+                  className="w-[30px] h-[30px] object-contain cursor-pointer"
+                />
+                {/* )} */}
+                {/* </Link> */}
+                {/* ) : ( */}
+                <Link href="/login">
+                  <HiOutlineUserCircle
+                    size={25}
+                    className="cursor-pointer dark:text-white text-black"
+                  />
+                </Link>
+                {/* )} */}
 
                 <MdOutlineClose
                   className="cursor-pointer dark:text-white text-black"

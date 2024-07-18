@@ -15,7 +15,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useLoginMutation } from "@/redux/features/auth/authApi";
 
 interface IFormInput {
   email: string;
@@ -24,7 +23,6 @@ interface IFormInput {
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [login, { data, isSuccess, error, isError }] = useLoginMutation();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -45,27 +43,10 @@ const Login = () => {
 
   const onSubmit = async({email, password}: IFormInput) => {
     const data = {email, password};
-    if(!data) return toast.error("Make sure to fill all the fields");
-    await login(data);
+    console.log(data)
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      const message = "Login is successfully done";
-      toast.success(message);
-      router.push('/')
-    } 
-    if (error) {
-      if ("data" in error) {
-        const errorData = error as any;
-        toast.error(errorData?.data.message);
-      } else {
-        console.log("Error occurred", error);
-        toast.error("Something went wrong");
-      }
-    }
-  }, [isSuccess, error, data?.message, router, isError])
-  
+
 
   return (
     <Container maxWidth="xs" sx={{

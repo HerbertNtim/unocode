@@ -13,7 +13,6 @@ import {
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 interface IFormInput {
@@ -25,22 +24,7 @@ interface IFormInput {
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const [register, { data, isSuccess, error }] = useRegisterMutation();
 
-  useEffect(() => {
-    if (isSuccess) {
-      const message = data?.message || "Registration is successfully done";
-      toast.success(message);
-      router.push('/verification')
-    }
-
-    if (error) {
-      if ("data" in error) {
-        const errorData = error as any;
-        toast.error(errorData?.data.message);
-      }
-    }
-  }, [isSuccess, error, data?.message, router]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -60,7 +44,7 @@ const SignUp = () => {
 
   const onSubmit = async ({ name, email, password }: IFormInput) => {
     const data = { name, email, password };
-    await register(data);
+    console.log(data);
   };
 
   return (

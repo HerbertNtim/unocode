@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import "./globals.css";
 import { Poppins } from "next/font/google";
@@ -6,20 +6,19 @@ import { Josefin_Sans } from "next/font/google";
 import { ThemeProvider } from "../utils/ThemeProvider";
 import Heading from "../utils/Heading";
 import { Toaster } from "react-hot-toast";
-import { Providers } from "./Provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-Poppins",
-  display: 'swap'
+  display: "swap",
 });
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-Josefin",
-  display: 'swap'
+  display: "swap",
 });
 
 export default function RootLayout({
@@ -37,12 +36,11 @@ export default function RootLayout({
           description="A coding platform"
           keywords="programming, education, skills"
         />
-        <Providers>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-            <Toaster position="top-center" />
-          </ThemeProvider>
-        </Providers>
+
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+          <Toaster position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   );

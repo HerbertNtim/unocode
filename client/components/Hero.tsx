@@ -1,10 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 const Hero = () => {
-  const [isLight, setIsLight] = useState(true);
 
   return (
     <section className="w-full h-[90%] py-10 sm:py-0">
