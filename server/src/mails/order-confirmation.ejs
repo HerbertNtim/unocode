@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="order-confirmation.css">
+  <title>Order Confirmation</title>
+</head>
+<body>
+  <div class="container">
+    <div class="message-sm">
+      <h1>Your Course order on Unocode is confirmed!</h1>
+      <p>And we're just as excited as you are.</p>
+    </div>
+    <br>
+    <br>
+    <div class="course-info">
+      <h4>Here's what you ordered:</h4>
+      <table style="border-bottom: 1px solid #0000002f;">
+        <tr>
+          <td>
+            Order #: <%= order._id %>
+          </td>
+          <td>
+            Order #: <%= order.date %>
+          </td>
+        </tr>
+      </table>
+
+      <table style="width: 90%; margin: auto; display: block;">
+        <tr>
+          <td class="first-td">Item</td>
+          <td class="first-td">Quantity</td>
+          <td class="first-td">Cost</td>
+        </tr>
+      </table>
+
+      <table style="width: 90%; margin: auto; display: block;">
+        <tr>
+          <td class="second-td"><%= order.name %></td>
+          <td class="second-td">1</td>
+          <td class="second-td">$<%= order.price %></td>
+        </tr>
+      </table>
+
+      <table class="table-row" style="border-top: 1px solid #00000029;">
+        <tr>
+          <td class="col-2">Subtotal:</td>
+          <td class="col-2">$<%= order.price %></td>
+        </tr>
+      </table>
+
+      <table class="table-row" style="margin-top: -20px;">
+        <tr>
+          <td class="col-2">Total:</td>
+          <td class="col-2">$<%= order.price %></td>
+        </tr>
+      </table>
+    </div>
+    <div class="footer">
+      <p>
+        If you have any questions, please contact our support team at <a href="mailto:herbertntim77@gmail.com">Unocode@support</a>
+      </p>
+      <p>&copy; 2024 Unocode: All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
