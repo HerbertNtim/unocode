@@ -6,6 +6,7 @@ import { Josefin_Sans } from "next/font/google";
 import { ThemeProvider } from "../utils/ThemeProvider";
 import Heading from "../utils/Heading";
 import { Toaster } from "react-hot-toast";
+import { Providers } from "./Provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -31,16 +32,17 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${josefin.variable} !bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300 bg-no-repeat`}
       >
-        <Heading
-          title="Unocode"
-          description="A coding platform"
-          keywords="programming, education, skills"
-        />
-
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <Toaster position="top-center" />
-        </ThemeProvider>
+        <Providers>
+          <Heading
+            title="Unocode"
+            description="A coding platform"
+            keywords="programming, education, skills"
+          />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+            <Toaster position="top-center" />
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

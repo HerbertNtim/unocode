@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
+
 interface IFormInput {
   name: string;
   email: string;
@@ -23,6 +25,7 @@ interface IFormInput {
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [register, {isLoading, isError, isSuccess, data, error}] = useRegisterMutation();
   const router = useRouter();
 
 
