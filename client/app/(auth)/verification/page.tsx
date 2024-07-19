@@ -1,10 +1,12 @@
 "use client";
 
+import { useActivationMutation } from "@/redux/features/auth/authApi";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { VscWorkspaceTrusted } from "react-icons/vsc";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 type VerifyNumber = {
   "0": string;
@@ -16,6 +18,11 @@ type VerifyNumber = {
 const Verification = () => {
   const [invalidError, setInvalidError] = useState(false);
   const router = useRouter();
+
+  const { token } = useSelector((state: any) => state.auth);
+  const [activation, { isSuccess, isError, error }] = useActivationMutation();
+  
+  console.log(token)
 
   const inputRefs = [
     useRef<HTMLInputElement>(null),
@@ -31,6 +38,24 @@ const Verification = () => {
     3: "",
   });
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Account Activated");
+      router.push("/");
+    }
+
+    if (isError && error) {
+      if ("data" in error) {
+        const errorData = error as any as { data: { message: string } } || 'Error in Activation';
+        toast.error(errorData?.data.message);
+        setInvalidError(true);
+      } else {
+        console.log("Error in Activation");
+        toast.error("An unknown error occurred");
+      }
+    }
+  }, [isSuccess, isError, error, router]);
+
   const verificationHandler = async () => {
     const otp = Object.values(verifyNumber).join("");
     if (otp.length < 4) {
@@ -38,6 +63,16 @@ const Verification = () => {
       return;
     }
 
+    const activationData = {
+      activation_token: token,
+      activation_code: otp
+    }
+
+    try {
+      const response = await activation(activationData);
+    } catch (error) {
+      console.log('Activation error:', error);
+    }
   };
 
   const handleInputChange = (index: number, value: string) => {
@@ -77,7 +112,6 @@ const Verification = () => {
         <Typography variant="h5" component="h1" gutterBottom>
           Verify Your Account
         </Typography>
-        <VscWorkspaceTrusted size={40} />
         <Box sx={{ mt: 3, display: "flex", gap: 2 }}>
           {Object.keys(verifyNumber).map((key, index) => (
             <TextField

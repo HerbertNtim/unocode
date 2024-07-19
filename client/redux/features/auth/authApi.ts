@@ -7,49 +7,45 @@ type RegistrationResponse = {
 }
 
 type RegistrationData = {
-  username: string;
+  name: string;
   password: string;
   email: string;
 }
 
- export const authApi = apiSlice.injectEndpoints({
-  endpoints: (build) => ({
+export const authApi = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
     // endpoints here 
-    register: build.mutation<RegistrationResponse, RegistrationData>({
+    register: builder.mutation<RegistrationResponse, RegistrationData>({
       query: (data) => ({
         url: '/unocode/auth/register',
         method: 'POST',
         body: data,
-        credentials: 'include'  
+        credentials: 'include' as const
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }: { dispatch: any, queryFulfilled: any }) {
         try {
           const result = await queryFulfilled;
-          dispatch(
-            userRegistration({
-              token: result.data.activationToken,
-            })
-          );
+          dispatch(userRegistration({
+            token: result.data.activationToken
+          }));
         } catch (error: any) {
-          console.log("Error in the registration",error);
+          console.log("Error in the registration", error);
         }
       }
     }),
 
-    activation: build.mutation({
+    activation: builder.mutation({
       query: ({ activation_token, activation_code}) => ({
         url: 'unocode/auth/activate-user',
         method: "POST",
         body: {
+          activation_token,
           activation_code,
-          activation_token
         }
       }),
     }),
 
-  }) 
+  }) ,
 })
 
-export const {useRegisterMutation} = authApi;
-
-
+export const {useRegisterMutation, useActivationMutation} = authApi;

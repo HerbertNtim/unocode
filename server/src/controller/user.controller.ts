@@ -102,7 +102,7 @@ export const createActivationToken = (user: any): IActivationToken => {
 // activate user
 interface IActivateUser {
   activation_code: string;
-  activation_token: string;
+  activation_token: {token: string};
 }
 
 export const activateUser = CatchAsyncError(
@@ -110,9 +110,12 @@ export const activateUser = CatchAsyncError(
     try {
       const { activation_code, activation_token } = req.body as IActivateUser;
 
+      // Ensure the activation token is a string
+      const tokenString = String(activation_token.token);
+
       // verify the activation token
       const newUser: { user: IUser; activationCode: string } = jwt.verify(
-        activation_token,
+        tokenString,
         process.env.ACTIVATION_SECRET as string
       ) as { user: IUser; activationCode: string };
 
@@ -125,7 +128,7 @@ export const activateUser = CatchAsyncError(
 
       // check if user already exists
       const isUserExist = await userModel.findOne({
-        email
+        email,
       });
 
       if (isUserExist) {
@@ -143,14 +146,12 @@ export const activateUser = CatchAsyncError(
         name,
         email,
         password,
+        isVerified: true,
       });
-
-      const verifyUser =  user.isVerified = true;
 
       res.status(201).json({
         success: true,
         user,
-        verifyUser
       });
     } catch (error: any) {
       console.log("Error in User activation");
@@ -233,7 +234,7 @@ export const updateAccessToken = CatchAsyncError(
       ) as JwtPayload;
 
       console.log("Decoded token:", decoded);
-      
+
       const message = "Couldn't find refresh token";
       if (!decoded) return next(new ErrorHandler(message, 400));
 
@@ -242,7 +243,7 @@ export const updateAccessToken = CatchAsyncError(
       if (!session) return next(new ErrorHandler("Login to Continue", 400));
 
       const user = JSON.parse(session);
-      
+
       const accessToken = jwt.sign(
         { id: user._id },
         process.env.ACCESS_TOKEN as string,
@@ -256,11 +257,11 @@ export const updateAccessToken = CatchAsyncError(
       );
 
       req.user = user;
-      
+
       res.cookie("access_token", accessToken, accessTokenOptions);
       res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
-      await redis.set(user._id, JSON.stringify(user), "EX", 604800) // 7 days
+      await redis.set(user._id, JSON.stringify(user), "EX", 604800); // 7 days
 
       res.status(200).json({
         success: true,

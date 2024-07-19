@@ -25,9 +25,26 @@ interface IFormInput {
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [register, {isLoading, isError, isSuccess, data, error}] = useRegisterMutation();
+  const [register, {isError, isSuccess, data, error}] = useRegisterMutation();
   const router = useRouter();
 
+  useEffect(() => {
+    if(isSuccess){
+      const message = data?.message || "Registered Success"
+      toast.success(message)
+      router.push('/verification')
+    }
+
+    if (isError && error) {
+      if ('data' in error) {
+        const errorData = error as { data: { message: string } };
+        toast.error(errorData.data.message);
+      } else {
+        toast.error('An unknown error occurred');
+      }
+    }
+  }, [isSuccess, isError, data, error, router]);
+  
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -47,7 +64,7 @@ const SignUp = () => {
 
   const onSubmit = async ({ name, email, password }: IFormInput) => {
     const data = { name, email, password };
-    console.log(data);
+    await register(data);
   };
 
   return (

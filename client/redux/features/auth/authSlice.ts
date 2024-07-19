@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: '',
+  token: "",
   user: ''
 }
 
@@ -9,7 +9,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    userRegistration: (state, action) => {
+    userRegistration: (state, action: PayloadAction<any>) => {
       state.token = action.payload
     },
     userLoggedIn: (state, action) => {
