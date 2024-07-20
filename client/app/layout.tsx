@@ -7,6 +7,8 @@ import { ThemeProvider } from "../utils/ThemeProvider";
 import Heading from "../utils/Heading";
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./Provider";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
+import Loader from "@/components/shared/Loader";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -39,7 +41,7 @@ export default function RootLayout({
             keywords="programming, education, skills"
           />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <Custom>{children}</Custom>
             <Toaster position="top-center" />
           </ThemeProvider>
         </Providers>
@@ -47,3 +49,14 @@ export default function RootLayout({
     </html>
   );
 }
+
+const Custom = ({children}: {children: React.ReactNode}) => {
+  const {isLoading} = useLoadUserQuery({});
+  return (
+    <>
+      {
+        isLoading ? <Loader /> : <>{children}</>
+      }
+    </>
+  )
+};

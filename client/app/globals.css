@@ -20,6 +20,39 @@ body {
   color: rgb(var(--foreground-rgb));
 }
 
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 70px;
+  aspect-ratio: 1;
+  background: radial-gradient(farthest-side, #ffa516 90%, #0000) center/16px
+      16px,
+    radial-gradient(farthest-side, green 90%, #0000) bottom/12px 12px;
+  background-repeat: no-repeat;
+  animation: l17 1s infinite linear;
+  position: relative;
+}
+
+.loader::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  aspect-ratio: 1;
+  inset: auto 0 16px;
+  margin: auto;
+  background: #ccc;
+  border-radius: 50%;
+  transform-origin: 50% calc(100% + 10px);
+  animation: inherit;
+  animation-duration: 0.5s;
+}
+
+@keyframes l17 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -31,7 +64,8 @@ input[type="number"] {
 }
 
 @keyframes changeBackgroundColor {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   16.67% {
@@ -53,19 +87,19 @@ input[type="number"] {
 
 @keyframes shake {
   0% {
-    transform: translateX(0)
+    transform: translateX(0);
   }
   20% {
-    transform: translateX(-2px)
+    transform: translateX(-2px);
   }
   40% {
-    transform: translateX(2px)
+    transform: translateX(2px);
   }
   60% {
-    transform: translateX(-2px)
+    transform: translateX(-2px);
   }
   80% {
-    transform: translateX(2px)
+    transform: translateX(2px);
   }
   100% {
     transform: translateX(0);
