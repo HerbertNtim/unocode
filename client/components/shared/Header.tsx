@@ -8,10 +8,12 @@ import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 import { MdOutlineClose } from "react-icons/md";
 import MobileNav from "./MobileNav";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const { user } = useSelector((state: any) => state.auth);
 
   if (typeof window != "undefined") {
     window.addEventListener("scroll", () => {
@@ -56,24 +58,32 @@ const Header = () => {
 
               <ThemeSwitcher />
 
-              {/* {user ? (
-                <Link href="/profile">
+              {user ? (
+                <Link
+                  href="/profile"
+                  className="flex items-center justify-center gap-2 pl-3"
+                >
                   <Image
                     src={user.avatar ? user.avatar : "/images/avatar.jpg"}
                     alt="user-avatar"
                     width={30}
                     height={30}
-                    className="w-[30px] h-[30px] object-contain cursor-pointer"
-                  /> */}
-              {/* </Link> */}
-              {/* ) : ( */}
-              <Link href="/login">
-                <HiOutlineUserCircle
-                  size={25}
-                  className="cursor-pointer dark:text-white text-black"
-                />
-              </Link>
-              {/* )} */}
+                    className="w-[30px] h-[30px] object-contain cursor-pointer rounded-full"
+                  />
+                  <p className="text-black dark:text-white">Profile</p>
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center gap-2 pl-3"
+                >
+                  <HiOutlineUserCircle
+                    size={25}
+                    className="cursor-pointer dark:text-white text-black pl-2"
+                  />
+                  <p className="text-black dark:text-white">Login</p>
+                </Link>
+              )}
 
               <div className="800px:hidden">
                 <HiOutlineMenuAlt3
@@ -97,30 +107,24 @@ const Header = () => {
               <div className="flex justify-end pr-5 gap-4">
                 <ThemeSwitcher />
 
-                {/* {user ? (
+                {user ? (
                   <Link href="/profile">
-                    {user ? (
-                      <Image
-                        src={user.avatar}
-                        alt="user-avatar"
-                        className="w-[30px] h-[30px] object-contain cursor-pointer rounded-full"
-                      />
-                    ) : ( */}
-                <Image
-                  src="../../public/images/avatar.jpg"
-                  alt="user-avatar"
-                  className="w-[30px] h-[30px] object-contain cursor-pointer"
-                />
-                {/* )} */}
-                {/* </Link> */}
-                {/* ) : ( */}
-                <Link href="/login">
-                  <HiOutlineUserCircle
-                    size={25}
-                    className="cursor-pointer dark:text-white text-black"
-                  />
-                </Link>
-                {/* )} */}
+                    <Image
+                      src={user.avatar ? user.avatar : "/images/avatar.jpg"}
+                      width={30}
+                      height={30}
+                      alt="user-avatar"
+                      className="w-[30px] h-[30px] object-contain cursor-pointer rounded-full"
+                    />
+                  </Link>
+                ) : (
+                  <Link href="/login">
+                    <HiOutlineUserCircle
+                      size={25}
+                      className="cursor-pointer dark:text-white text-black"
+                    />
+                  </Link>
+                )}
 
                 <MdOutlineClose
                   className="cursor-pointer dark:text-white text-black"
