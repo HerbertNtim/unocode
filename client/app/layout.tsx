@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { Providers } from "./Provider";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Loader from "@/components/shared/Loader";
+import { useEffect, useState } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -50,13 +51,18 @@ export default function RootLayout({
   );
 }
 
-const Custom = ({children}: {children: React.ReactNode}) => {
-  const {isLoading} = useLoadUserQuery({});
-  return (
-    <>
-      {
-        isLoading ? <Loader /> : <>{children}</>
-      }
-    </>
-  )
+const Custom = ({ children }: { children: React.ReactNode }) => {
+  const { isLoading } = useLoadUserQuery({});
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  if (!hydrated) {
+    // Render placeholder content or nothing to ensure matching HTML
+    return <div suppressHydrationWarning><Loader /></div>;
+  }
+
+  return <>{isLoading ? <Loader /> : <>{children}</>}</>
 };

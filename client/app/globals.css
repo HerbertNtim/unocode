@@ -105,3 +105,10 @@ input[type="number"] {
     transform: translateX(0);
   }
 }
+
+/* Styles */
+@layer utilities {
+  .sub-profile {
+    @apply w-[60px] h-[450px] 800px:w-[310px] bg-slate-900 bg-opacity-10 border border-[#ffffff1d] rounded-[5px] shadow-sm my-[80px] left-[30px];
+  }
+}

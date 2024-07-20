@@ -8,7 +8,6 @@ dotenv.config();
 import { v2 as cloudinary } from 'cloudinary';
 import courseRouter from './routes/course.route';
 import orderRouter from './routes/order.route';
-import { authorizeRoles, isAuthenticated } from './middleware/auth';
 import notificationRouter from './routes/notification.route';
 import analyticRouter from './routes/analytics.route';
 import layoutRouter from './routes/layout.route';

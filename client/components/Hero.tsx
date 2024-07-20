@@ -50,7 +50,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="w-full flex-1 py-12">
+        <div className="w-full flex-1 py-12 pb-4">
           <Image
             src={"/images/hero.svg"}
             alt="hero"
