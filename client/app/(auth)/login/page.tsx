@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
 
 interface IFormInput {
   email: string;
@@ -23,6 +24,7 @@ interface IFormInput {
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [login, { isSuccess, isError, error }] = useLoginMutation();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -41,22 +43,36 @@ const Login = () => {
     },
   });
 
-  const onSubmit = async({email, password}: IFormInput) => {
-    const data = {email, password};
-    console.log(data)
+  const onSubmit = async ({ email, password }: IFormInput) => {
+    const data = { email, password };
+    await login(data);
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Login successfully");
+      router.push("/");
+    }
 
+    if (isError) {
+      if ("data" in error) {
+        toast.error("Failed to Log in");
+      }
+    }
+  }, [isError, isSuccess, error, router]);
 
   return (
-    <Container maxWidth="xs" sx={{
-      border: "1px solid",
-      borderColor: "secondary.main",
-      borderRadius: 2,
-      padding: 4,
-      boxShadow: 3,
-      backgroundColor: "#00004a",
-    }}>
+    <Container
+      maxWidth="xs"
+      sx={{
+        border: "1px solid",
+        borderColor: "secondary.main",
+        borderRadius: 2,
+        padding: 4,
+        boxShadow: 3,
+        backgroundColor: "#00004a",
+      }}
+    >
       <Box sx={{ mt: 2 }}>
         <Typography
           variant="h5"

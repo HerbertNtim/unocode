@@ -225,15 +225,11 @@ export const logoutUser = CatchAsyncError(
 export const updateAccessToken = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log("Received cookies:", req.cookies);
-
       const refresh_token = req.cookies.refresh_token as string;
       const decoded = jwt.verify(
         refresh_token,
         process.env.REFRESH_TOKEN as string
       ) as JwtPayload;
-
-      console.log("Decoded token:", decoded);
 
       const message = "Couldn't find refresh token";
       if (!decoded) return next(new ErrorHandler(message, 400));
@@ -268,6 +264,7 @@ export const updateAccessToken = CatchAsyncError(
         accessToken,
       });
     } catch (error: any) {
+      console.log('Error in Update Access Token Controller');
       return next(new ErrorHandler(error.message, 400));
     }
   }
