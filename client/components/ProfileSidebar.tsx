@@ -1,9 +1,11 @@
-'use client'
+"use client";
 
 import { useLogoutMutation } from "@/redux/features/auth/authApi";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AiOutlineLogout } from "react-icons/ai";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { SiCoursera } from "react-icons/si";
 import { useSelector } from "react-redux";
@@ -14,21 +16,16 @@ type ProfileSidebarProps = {
   setActive: (active: number) => void;
 };
 
-const ProfileSidebar = ({
-  active,
-  avatar,
-  setActive,
-}: ProfileSidebarProps) => {
-  const { user } = useSelector((state: any) => state.auth)
-  const [logout] = useLogoutMutation()
-  const router = useRouter()
+const ProfileSidebar = ({ active, avatar, setActive }: ProfileSidebarProps) => {
+  const { user } = useSelector((state: any) => state.auth);
+  const [logout] = useLogoutMutation();
+  const router = useRouter();
 
   const logOutHandler = async () => {
-    await logout().unwrap()  
-    router.push('/')
-  }
+    await logout().unwrap();
+    router.push("/");
+  };
 
-  
   return (
     <div className="w-full flex flex-col py-4">
       <div
@@ -76,18 +73,29 @@ const ProfileSidebar = ({
         </h5>
       </div>
 
+      {user.role === "admin" && (
+        <Link href="/admin"
+          className={`w-full flex items-center px-5 py-4 cursor-pointer ${
+            active === 4 ? "bg-slate-800" : "bg-transparent"
+          }`}
+        >
+          <MdOutlineAdminPanelSettings  size={20} fill="#fff" />
+
+          <h5 className="pl-2 800px:block hidden font-Poppins">
+            Admin Dashboard
+          </h5>
+        </Link>
+      )}
+
       <div
         className={`w-full flex items-center px-5 py-4 cursor-pointer ${
-          active === 3 ? "bg-slate-800" : "bg-transparent"
+          active === 5 ? "bg-slate-800" : "bg-transparent"
         }`}
         onClick={logOutHandler}
       >
         <AiOutlineLogout size={20} fill="#fff" />
 
-        <h5 className="pl-2 800px:block hidden font-Poppins"
-        >
-          Log Out
-        </h5>
+        <h5 className="pl-2 800px:block hidden font-Poppins">Log Out</h5>
       </div>
     </div>
   );

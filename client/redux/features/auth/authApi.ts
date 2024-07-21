@@ -78,7 +78,7 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
 
-    logout: builder.mutation<void, void> ({
+    logout: builder.mutation<void, void>({
       query: () => ({
         url: "unocode/auth/logout",
         method: "GET",
@@ -89,9 +89,7 @@ export const authApi = apiSlice.injectEndpoints({
         { dispatch, queryFulfilled }: { dispatch: any; queryFulfilled: any }
       ) {
         try {
-          dispatch(
-            userLoggedOut()
-          );
+          dispatch(userLoggedOut());
         } catch (error: any) {
           console.log("Error in the Logout", error);
         }
@@ -100,5 +98,9 @@ export const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useRegisterMutation, useActivationMutation, useLoginMutation, useLogoutMutation} =
-  authApi;
+export const {
+  useRegisterMutation,
+  useActivationMutation,
+  useLoginMutation,
+  useLogoutMutation,
+} = authApi;

@@ -1,14 +1,21 @@
-import Header from "@/components/shared/Header"
+'use client'
 
-const RootPage = ({children}: {children: React.ReactNode}) => {
+import Header from '@/components/shared/Header';
+import { usePathname } from 'next/navigation';
+
+const RootPage = ({ children }: { children: React.ReactNode }) => {
+ const pathname = usePathname()
+ const admin = pathname !== '/admin'
+ 
   return (
     <main className="flex flex-col h-screen">
-      <Header />
-      <div className="flex-1 py-5 md:py-10">
+      { admin && <Header />}
+      <div className={`${admin && "flex-1 py-5 md:py-10"}`}>
         {children}
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default RootPage
+export default RootPage;
+

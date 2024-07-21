@@ -1,5 +1,6 @@
 "use client"
 
+import ProfileInfo from '@/components/ProfileInfo'
 import ProfileSidebar from '@/components/ProfileSidebar'
 import Protected from '@/hooks/useProtected'
 import { useState } from 'react'
@@ -28,6 +29,14 @@ const Profile = () => {
             active={active}
             avatar={avatar}
           />
+        </div>
+
+        <div className='mx-16 px-16 w-full flex-1 py-20'>
+          {
+          active === 1 && (
+            <ProfileInfo />
+          )
+        }
         </div>
       </div>
     </Protected>
